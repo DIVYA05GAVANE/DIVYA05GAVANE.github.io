@@ -24,3 +24,4 @@ body{background:radial-gradient(circle at 90% 0%,rgba(8,120,209,.07),transparent
 @keyframes rise-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.intro,.project,.btn{animation:none;transition:none}.project:hover,.btn:hover{transform:none}}
 @media(max-width:640px){.intro{padding:22px 20px}}
+.project-link{display:inline-block;margin-top:12px;font-weight:700}.project-page h1{max-width:24ch}.project-page section{max-width:70ch}.artifact-box{margin-top:24px;padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
