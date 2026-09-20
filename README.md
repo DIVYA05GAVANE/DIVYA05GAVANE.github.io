@@ -1,6 +1,6 @@
 # Divya Gavane — personal portfolio
 
-Static portfolio covering custom IC and memory design, TCAD, and memory package engineering. Includes an interactive 32-bit × 8-vector Hamming-distance concept demonstration and project filters.
+Static portfolio covering Custom IC and Memory Design, TCAD, and memory package engineering. Includes an interactive 32-bit × 8-vector Hamming-distance concept demonstration and project filters.
 
 Adapted from the portfolio supplied in the user's Claude conversation. Layout inspired by Jon Barron's academic website. The interactive demo uses synthetic data, not measured macro results.
 
