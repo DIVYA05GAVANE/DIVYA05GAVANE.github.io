@@ -7,8 +7,9 @@
 .project-institution{margin-top:4px;color:var(--muted)}
 .sourced-project section{margin-top:36px;max-width:76ch}
 .project-description p+p{margin-top:18px}
+.project-visual{margin:34px 0 0;max-width:760px}.project-visual svg{display:block;width:100%;height:auto}.project-visual figcaption{margin-top:9px;color:var(--muted);font-size:.84rem;line-height:1.45}.visual-bg{fill:var(--panel);stroke:var(--line);stroke-width:2}.project-visual text{font-family:Lato,Verdana,sans-serif}.visual-kicker{fill:var(--blue-deep);font-size:11px;font-weight:900;letter-spacing:1.4px}.visual-title{fill:var(--ink);font-size:24px;font-weight:900}.visual-source,.visual-drain{fill:var(--blue-deep)}.visual-channel{fill:var(--amber-soft)}.visual-gate{stroke:var(--blue);stroke-width:10}.visual-arrow{stroke:var(--blue);stroke-width:3;fill:none;marker-end:url(#arrow)}.visual-label{fill:var(--muted);font-size:12px}.visual-outcome{fill:rgba(8,120,209,.08);stroke:var(--line)}.visual-outcome-text{fill:var(--ink);font-size:12px;font-weight:900;letter-spacing:.7px}.visual-note{fill:var(--muted);font-size:11px}
 .materials-list .artifact-box{margin-top:16px}
 .materials-list h3{font-size:1.05rem;line-height:1.4;overflow-wrap:anywhere}
 .materials-list p{margin-top:10px;color:var(--muted)}
 .sourced-project footer p+p{margin-top:10px}
-@media(max-width:480px){.sourced-project nav{margin-bottom:24px}.materials-list .artifact-box{padding:16px}.sourced-project h1{font-size:1.8rem}}
+@media(max-width:480px){.sourced-project nav{margin-bottom:24px}.materials-list .artifact-box{padding:16px}.sourced-project h1{font-size:1.8rem}.project-visual{margin-top:26px}.visual-title{font-size:18px}.visual-outcome-text{font-size:9px}.visual-note{font-size:8px}.visual-label{font-size:9px}}
