@@ -41,6 +41,36 @@
     document.querySelectorAll('.project').forEach(p=>{p.hidden = !(button.dataset.filter==='all'||p.dataset.track===button.dataset.filter);});
   }));
 
+  const projectIcon = title => {
+    const text = title.toLowerCase();
+    if (text.includes('ferroelectric')) return 'ϟ';
+    if (text.includes('random laser')) return '✦';
+    if (text.includes('energy bands')) return '∑';
+    if (text.includes('mos capacitor')) return '◉';
+    if (text.includes('malaria')) return '⌁';
+    if (text.includes('playstore')) return '▦';
+    if (text.includes('echo')) return '〰';
+    if (text.includes('becton') || text.includes('urine')) return '⚕';
+    if (text.includes('morphological')) return '◌';
+    if (text.includes('obstacle') || text.includes('bot')) return '◈';
+    if (text.includes('pn-junction')) return '⇄';
+    if (text.includes('rtl') || text.includes('fp8')) return '⌘';
+    if (text.includes('sram') || text.includes('sequential')) return '▣';
+    if (text.includes('standard cells')) return '▤';
+    if (text.includes('mosfet')) return 'ϟ';
+    if (text.includes('package')) return '◫';
+    return '◇';
+  };
+  document.querySelectorAll('.project h3, .additional-card h3').forEach((heading, index) => {
+    if (heading.querySelector('.project-icon')) return;
+    const icon = document.createElement('span');
+    icon.className = 'project-icon';
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = projectIcon(heading.textContent);
+    heading.prepend(icon);
+    heading.closest('article')?.style.setProperty('--project-index', index);
+  });
+
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const revealTargets = document.querySelectorAll('main > .highlights, main > .section-nav, main > section');
   if (reduceMotion || !('IntersectionObserver' in window)) {
