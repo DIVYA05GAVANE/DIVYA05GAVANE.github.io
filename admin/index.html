@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Portfolio editor</title>
+<style>
+:root{--bg:#fff;--fg:#1c1c1c;--mu:#666;--ln:#d8d8d8;--ac:#1a56a0;--sf:#f5f6f8}
+@media(prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#eceff3;--mu:#9aa3ad;--ln:#343a42;--ac:#7db3f2;--sf:#1f2329}}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 Lato,system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+.top{position:sticky;top:0;z-index:5;display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 16px;background:var(--sf);border-bottom:1px solid var(--ln)}
+.top h1{font-size:17px;margin:0 auto 0 0}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);height:calc(100vh - 57px)}
+@media(max-width:900px){.wrap{grid-template-columns:1fr;height:auto}.pv{height:70vh}}
+.ed{overflow:auto;padding:16px}.pv{border-left:1px solid var(--ln)}.pv iframe{width:100%;height:100%;border:0;background:#fff}
+button,input,textarea{font:inherit;color:inherit}
+button{background:var(--bg);border:1px solid var(--ln);border-radius:6px;padding:5px 10px;cursor:pointer}
+button.p{background:var(--ac);color:#fff;border-color:var(--ac)}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--ac)}
+details{border:1px solid var(--ln);border-radius:8px;margin:0 0 10px;background:var(--bg)}summary{padding:10px 12px;font-weight:700;cursor:pointer}
+.in{padding:0 12px 12px}label{display:block;font-size:13px;color:var(--mu);margin:8px 0 2px}
+input,textarea{width:100%;padding:6px 8px;border:1px solid var(--ln);border-radius:6px;background:var(--bg)}textarea{min-height:70px;resize:vertical}
+.it{border:1px solid var(--ln);border-radius:6px;padding:8px 10px;margin:8px 0;background:var(--sf)}.row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.msg{padding:8px 16px;font-size:14px}.ok{color:#1b7f3b}.er{color:#b3261e}
+dialog{border:1px solid var(--ln);border-radius:8px;background:var(--bg);color:var(--fg);max-width:480px;width:92%}
+</style></head><body>
+<div class="top"><h1>Portfolio editor</h1>
+<button id="vp" type="button">Phone preview</button><button id="dl" type="button">Download index.html</button>
+<button id="gh" type="button">GitHub settings</button><button id="pub" class="p" type="button">Publish</button></div>
+<div id="msg" class="msg" role="status" aria-live="polite">Loading your site…</div>
+<div class="wrap"><div class="ed" id="ed"></div><div class="pv"><iframe id="pv" title="Live preview"></iframe></div></div>
+<dialog id="dlg"><form method="dialog"><h2>GitHub settings</h2>
+<label for="repo">Repository</label><input id="repo" value="DIVYA05GAVANE/divya05gavane.github.io">
+<label for="br">Branch</label><input id="br" value="main">
+<label for="tk">Fine-grained token (this repo only, Contents: Read and write)</label><input id="tk" type="password" autocomplete="off">
+<p style="font-size:13px;color:var(--mu)">The token is stored only in this browser.</p>
+<div class="row"><button value="save" class="p">Save</button><button value="cancel">Cancel</button></div></form></dialog>
+<script>
+(()=>{'use strict';
+const $=s=>document.querySelector(s),ed=$('#ed'),msg=(t,c)=>{const m=$('#msg');m.textContent=t;m.className='msg '+(c||'')};
+const ROOT=new URL('../',location.href).href;let doc;
+const q=(s,r=doc)=>r.querySelector(s),qa=(s,r=doc)=>[...r.querySelectorAll(s)];
+function fld(l,v,on,ml){const w=document.createElement('div'),lb=document.createElement('label'),i=document.createElement(ml?'textarea':'input');
+ lb.textContent=l;i.value=v;i.addEventListener('input',()=>{on(i.value);preview()});lb.append(i);w.append(lb);return w}
+const bul=u=>qa('li',u).map(l=>l.innerHTML).join('\n');
+function setBul(u,t){u.replaceChildren(...t.split('\n').filter(x=>x.trim()).map(x=>{const l=doc.createElement('li');l.innerHTML=x;return l}))}
+function sect(title,open){const d=document.createElement('details');if(open)d.open=true;const s=document.createElement('summary');s.textContent=title;
+ const b=document.createElement('div');b.className='in';d.append(s,b);ed.append(d);return b}
+function list(box,items,make,fields,addLabel,tpl){const wrap=document.createElement('div');
+ function draw(){wrap.replaceChildren();items().forEach((el,i,a)=>{const c=document.createElement('div');c.className='it';
+  fields(el).forEach(f=>c.append(f));const r=document.createElement('div');r.className='row';
+  const mk=(t,fn)=>{const b=document.createElement('button');b.type='button';b.textContent=t;b.onclick=()=>{fn();preview();draw()};r.append(b)};
+  if(i>0)mk('Move up',()=>el.previousElementSibling.before(el));if(i<a.length-1)mk('Move down',()=>el.nextElementSibling.after(el));
+  mk('Remove',()=>{if(confirm('Remove this item?'))el.remove()});c.append(r);wrap.append(c)});
+  const add=document.createElement('button');add.type='button';add.textContent=addLabel;add.onclick=()=>{make();preview();draw()};wrap.append(add)}
+ draw();box.append(wrap)}
+const clone=(sel,after)=>{const all=qa(sel),n=all[all.length-1].cloneNode(true);all[all.length-1].after(n);return n};
+function pairEd(o,sel,fields){return fields.map(([l,s,ml])=>fld(l,(q(s,o)||{}).innerHTML||'',v=>{const e=q(s,o);if(e)e.innerHTML=v},ml))}
+function build(){ed.replaceChildren();
+ let b=sect('Profile',true);
+ const one=(l,s,ml)=>b.append(fld(l,q(s).innerHTML,v=>q(s).innerHTML=v,ml));
+ one('Eyebrow','.eyebrow');one('Headline','.role');
+ qa('.bio').forEach((p,i)=>b.append(fld('Bio paragraph '+(i+1)+' (HTML links allowed)',p.innerHTML,v=>p.innerHTML=v,1)));
+ b.append(fld('Email',q('.links a[href^=mailto]').getAttribute('href').slice(7),v=>qa('a[href^=mailto]').forEach(a=>{a.href='mailto:'+v;if(a.closest('#contact'))a.textContent=v})));
+ b.append(fld('Search description',q('meta[name=description]').content,v=>{q('meta[name=description]').content=v},1));
+ b.append(fld('Link-preview description',q('meta[property="og:description"]').content,v=>{q('meta[property="og:description"]').content=v},1));
+ qa('.highlights > div').forEach((h,i)=>{b.append(fld('Highlight '+(i+1)+' figure',q('strong',h).textContent,v=>q('strong',h).textContent=v));b.append(fld('Highlight '+(i+1)+' label',q('span',h).textContent,v=>q('span',h).textContent=v))});
+ b=sect('Skills');const dl=q('dl.facts');
+ list(b,()=>qa('dt',dl),()=>{const t=doc.createElement('dt'),d=doc.createElement('dd');t.textContent='New category';d.textContent='Tools';dl.append(t,d)},
+  dt=>[fld('Category',dt.textContent,v=>dt.textContent=v),fld('Skills',dt.nextElementSibling.innerHTML,v=>dt.nextElementSibling.innerHTML=v,1)],'Add skill category');
+ const entries=(id,title,addLabel)=>{const sec=q('#'+id);if(!sec)return;const bx=sect(title);
+  const S='#'+id+' .entry';
+  list(bx,()=>qa(S),()=>{if(qa(S).length){const n=clone(S);q('h3',n).textContent='New entry';q('.when',n).textContent='Month Year – Month Year';const w=q('.where',n);if(w)w.textContent='Place';const u=q('ul',n);if(u)setBul(u,'Describe what you did')}else alert('Add one entry in the original page first.')},
+   e=>{const o=[fld('Title',q('h3',e).innerHTML,v=>q('h3',e).innerHTML=v),fld('Dates',q('.when',e).textContent,v=>q('.when',e).textContent=v)];
+    const w=q('.where',e);if(w)o.push(fld('Subtitle',w.innerHTML,v=>w.innerHTML=v));
+    const u=q('ul',e);if(u)o.push(fld('Bullets (one per line)',bul(u),v=>setBul(u,v),1));return o},addLabel)};
+ entries('education','Education','Add education');entries('research','Research','Add research entry');entries('experience','Experience','Add experience');
+ b=sect('Certifications');const cu=q('#certifications ul');if(cu)b.append(fld('Certifications (one per line)',bul(cu),v=>setBul(cu,v),1));
+ b=sect('Featured projects');
+ list(b,()=>qa('article.project'),()=>{const n=clone('article.project');n.dataset.track='design';q('h3',n).textContent='New project';q('.meta',n).textContent='Tools · Month Year';
+  const ps=qa('p',n);ps[ps.length-1].textContent='What you built and what you found.';q('.project-link',n).href='#';
+  const t=q('svg.tile',n);t.setAttribute('aria-label','New project');t.innerHTML='<text x="80" y="58" font-size="18" font-weight="900" text-anchor="middle">New project</text>'},
+  a=>{const ps=qa('p',a),d=ps[ps.length-1];return[fld('Title',q('h3',a).innerHTML,v=>q('h3',a).innerHTML=v),
+   fld('Tools and date',q('.meta',a).textContent,v=>q('.meta',a).textContent=v),fld('Description',d.innerHTML,v=>d.innerHTML=v,1),
+   fld('Detail page link',q('.project-link',a).getAttribute('href'),v=>q('.project-link',a).setAttribute('href',v)),
+   fld('Filter tag (design, process, packaging)',a.dataset.track,v=>a.dataset.track=v.trim()),
+   fld('Tile text (shown in the picture)',(q('svg.tile',a).textContent||'').trim(),v=>{const t=q('svg.tile',a);t.innerHTML='<text x="80" y="58" font-size="18" font-weight="900" text-anchor="middle"></text>';t.firstChild.textContent=v})]},'Add featured project');
+ b=sect('Additional projects');const g=q('.additional-grid');
+ list(b,()=>qa('.additional-card'),()=>{const n=clone('.additional-card');q('h3',n).textContent='New project';q('.meta',n).textContent='Tools';q('a',n).href='#'},
+  c=>[fld('Title',q('h3',c).innerHTML,v=>q('h3',c).innerHTML=v),fld('Subtitle',q('.meta',c).textContent,v=>q('.meta',c).textContent=v),fld('Link',q('a',c).getAttribute('href'),v=>q('a',c).setAttribute('href',v))],'Add project');
+}
+const html=()=>'<!DOCTYPE html>\n'+doc.documentElement.outerHTML;
+let tm;function preview(){clearTimeout(tm);tm=setTimeout(()=>{const c=doc.cloneNode(true);const b=c.createElement('base');b.href=ROOT;c.head.prepend(b);$('#pv').srcdoc='<!DOCTYPE html>\n'+c.documentElement.outerHTML},200)}
+const cfg=()=>({repo:localStorage.getItem('gh_repo')||$('#repo').value,br:localStorage.getItem('gh_br')||'main',tk:localStorage.getItem('gh_tk')||''});
+$('#gh').onclick=()=>{const c=cfg();$('#repo').value=c.repo;$('#br').value=c.br;$('#tk').value=c.tk;$('#dlg').showModal()};
+$('#dlg').addEventListener('close',()=>{if($('#dlg').returnValue==='save'){try{localStorage.setItem('gh_repo',$('#repo').value.trim());localStorage.setItem('gh_br',$('#br').value.trim());localStorage.setItem('gh_tk',$('#tk').value.trim());msg('Settings saved.','ok')}catch(e){msg('This browser blocked saving settings.','er')}}});
+$('#vp').onclick=()=>{const f=$('#pv');const ph=f.style.maxWidth==='390px';f.style.maxWidth=ph?'':'390px';f.style.margin=ph?'':'0 auto';f.style.display='block';$('#vp').textContent=ph?'Phone preview':'Desktop preview'};
+$('#dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html()],{type:'text/html'}));a.download='index.html';a.click()};
+$('#pub').onclick=async()=>{const c=cfg();if(!c.tk){msg('Add a GitHub token under GitHub settings first.','er');return}
+ const u='https://api.github.com/repos/'+c.repo+'/contents/index.html',H={Authorization:'Bearer '+c.tk,Accept:'application/vnd.github+json'};
+ try{msg('Publishing…');const r=await fetch(u+'?ref='+encodeURIComponent(c.br),{headers:H});if(!r.ok)throw new Error('Could not read index.html ('+r.status+'). Check the repository name and token.');
+  const sha=(await r.json()).sha;const body=btoa(unescape(encodeURIComponent(html())));
+  const p=await fetch(u,{method:'PUT',headers:H,body:JSON.stringify({message:'Update portfolio via editor',content:body,sha,branch:c.br})});
+  if(!p.ok)throw new Error('Publish failed ('+p.status+'). The token needs Contents: Read and write on this repository.');
+  msg('Published. GitHub Pages usually updates within a minute.','ok')}catch(e){msg(e.message,'er')}};
+fetch(ROOT+'index.html',{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>{doc=new DOMParser().parseFromString(t,'text/html');build();preview();msg('Loaded. Changes appear in the preview; nothing is saved until you publish or download.')})
+ .catch(()=>msg('Could not load ../index.html. Open this page from your published site, not from a local file.','er'));
+})();
+</script></body></html>

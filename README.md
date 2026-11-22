@@ -1,9 +1,8 @@
-# Divya Gavane — personal portfolio
+# Divya Gavane — portfolio
 
-Static portfolio covering Custom IC and Memory Design, TCAD, and memory package engineering. Includes an interactive 32-bit × 8-vector Hamming-distance concept demonstration and project filters.
+Static portfolio (GitHub Pages, `main`, root). No build step. Preview locally: `python -m http.server 8080`.
 
-Adapted from the portfolio supplied in the user's Claude conversation. Layout inspired by Jon Barron's academic website. The interactive demo uses synthetic data, not measured macro results.
+## Editing
+Open `/admin/` on the live site. Edit the profile, skills, education, research, experience and projects, check the live preview, then either download `index.html` or publish straight to GitHub with a fine-grained token (this repo only, Contents: Read and write). The token stays in your browser.
 
-Publish these files in the root of `DIVYA05GAVANE/DIVYA05GAVANE.github.io`, then enable GitHub Pages from `main`, root directory.
-
-No build step or analytics. Preview locally with `python -m http.server 8080` from this folder.
+The Hamming-distance demo uses synthetic data, not measured results.
