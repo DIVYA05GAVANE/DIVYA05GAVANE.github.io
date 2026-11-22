@@ -34,4 +34,6 @@ body{background:radial-gradient(circle at 90% 0%,rgba(8,120,209,.07),transparent
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1)}.reveal.is-visible{opacity:1;transform:none}
 .project-link{position:relative}.project-link::after{content:'↗';display:inline-block;margin-left:.35em;transition:transform .18s ease}.project-link:hover::after{transform:translate(2px,-2px)}
 .tile{transition:transform .22s ease,box-shadow .22s ease}.project:hover .tile{transform:scale(1.025);box-shadow:0 8px 20px rgba(27,66,102,.1)}
+.availability{display:inline-flex;align-items:center;gap:.5rem;margin-top:14px;padding:5px 10px;border:1px solid rgba(8,120,209,.22);border-radius:999px;background:rgba(8,120,209,.06);color:var(--blue-deep);font-size:.82rem;font-weight:700}.availability span{width:.56rem;height:.56rem;border-radius:50%;background:#2e9c63;box-shadow:0 0 0 0 rgba(46,156,99,.45);animation:status-pulse 2.2s ease-out infinite}@keyframes status-pulse{70%{box-shadow:0 0 0 8px rgba(46,156,99,0)}100%{box-shadow:0 0 0 0 rgba(46,156,99,0)}}
 @media(prefers-reduced-motion:reduce){.section-nav a,.section-nav a::after,.highlights>div,.reveal,.project-link::after,.tile{transition:none}.highlights>div:hover,.project:hover .tile{transform:none}}
+@media(prefers-reduced-motion:reduce){.availability span{animation:none}}
