@@ -1,0 +1,75 @@
+File {	
+	Grid = "@tdr@"
+	Parameter = "@parameter@"
+	Plot = "@tdrdat@"
+	Current = "@plot@"
+	Output = "@log@"
+}
+
+Electrode {
+	{ name="p_contact" voltage=0 }
+	{ name="n_contact" voltage=0 }
+}
+
+Physics {
+	Mobility(
+		DopingDep
+		)
+	Recombination (
+		SRH(DopingDep
+		)
+	)
+}
+
+Math {
+	Extrapolate
+	Derivatives
+	eDrForceRefDens = 1e10
+	hDrForceRefDens = 1e10
+	NoSRHperPotential
+	Iterations=15
+	ExitOnFailure
+}
+
+Solve {
+	*- Creating initial guess:
+		Coupled(Iterations= 100){ Poisson }
+		Coupled {Poisson Electron Hole}
+
+	*- Sweeping V:
+		NewCurrentFile="IV_"
+		Quasistationary(
+			InitialStep= 0.01 MinStep= 0.005 MaxStep= 0.05
+			Goal {name= "p_contact" voltage = @Vmin@}
+		){ Coupled {Poisson Electron Hole} }
+		Quasistationary(
+			InitialStep= 0.01 MinStep= 0.005 MaxStep= 0.05
+			Goal {name= "p_contact" voltage = @Vmax@}
+		){ Coupled {Poisson Electron Hole} }
+}
+
+Plot {
+	*- Carrier Densities:
+		*eDensity
+		*hDensity
+	*- Currents and current components:
+		Current
+		*eCurrent
+		*hCurrent
+		*eMobility
+		*hMobility
+		*eVelocity
+		*hVelocity
+	*- Fields, Potentials and Charge distributions:
+		*ElectricField
+		*Potential
+		*SpaceCharge
+	*- Doping Profiles:
+		Doping
+		*DonorConcentration
+		*AcceptorConcentration
+	*- Band structure:
+		*BandGap
+		ConductionBandEnergy
+		ValenceBandEnergy
+}

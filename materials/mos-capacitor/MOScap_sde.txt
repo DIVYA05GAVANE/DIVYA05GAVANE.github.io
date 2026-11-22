@@ -1,0 +1,122 @@
+; sde code 1 without variables
+; Reinitializing SDE 
+(sde:clear)
+(define DopSub "BoronActiveConcentration")
+(define SubDop 1e17)
+
+; Selecting default Boolean expression 
+(sdegeo:set-default-boolean "ABA")
+
+; Creating rectangular regions  
+
+(sdegeo:create-rectangle
+  (position -0.05 0   0.0) (position 0.05 -0.05 0.0) "Silicon" "R.Semiconductor")
+(sdegeo:create-rectangle
+  (position -0.05 -0.05   0.0) (position 0.05 -0.06 0.0) "SiO2" "R.Oxide")
+(sdegeo:create-rectangle
+  (position -0.05  -0.06   0.0) (position 0.05  -0.07   0.0) "Tungsten" "R.Metal") 
+
+; Defining contacts 
+(sdegeo:define-contact-set "top"    4.0 (color:rgb 1.0 0.0 0.0 ) "##" )
+(sdegeo:define-contact-set "bottom"     4.0 (color:rgb 0.0 1.0 0.0 ) "##" )
+
+; Setting contacts
+(sdegeo:define-2d-contact (find-edge-id (position 0.0  -0.07 0.0)) "top")
+
+(sdegeo:define-2d-contact (find-edge-id (position 0.0  0.0 0.0)) "bottom")
+
+
+; Doping
+;-Channel Doping
+; - Common dopants:
+; | "BoronActiveConcentration" | "PhosphorusActiveConcentration" | "ArsenicActiveConcentration"
+(sdedr:define-constant-profile "Const.Semiconductor" DopSub SubDop )
+(sdedr:define-constant-profile-region  "PlaceCD.Semiconductor" "Const.Semiconductor" "R.Semiconductor" )
+
+; Meshing Strategy
+(sdedr:define-refinement-window "W.Global" "Cuboid"
+ (position -1 -1 -1)
+ (position 1 1 1)
+)
+(sdedr:define-refinement-size
+ "R.Global"
+ 4e-3 2e-3 5e-3 
+ 2e-3 1e-3 2e-3)                                                                         
+(sdedr:define-refinement-function "R.Global" "MaxLenInt" "Silicon" "SiO2" 2e-4 1.2
+"DoubleSide")
+(sdedr:define-refinement-function "R.Global" "MaxLenInt" "SiO2" "Tungsten" 2e-4 1.2
+"DoubleSide")
+(sdedr:define-refinement-placement "P.Global" "R.Global" "W.Global")
+(sde:build-mesh "snmesh" "" "n@node@_msh")
+
+
+
+
+
+
+
+
+
+;; sde codes 2, with variables
+; Reinitializing SDE 
+(sde:clear)
+(define DopSub "BoronActiveConcentration")
+(define SubDop @nc@)
+(define tox @tox@)
+
+; Selecting default Boolean expression 
+(sdegeo:set-default-boolean "ABA")
+
+; Creating rectangular regions  
+
+(sdegeo:create-rectangle
+  (position -0.05 0   0.0) (position 0.05 -0.05 0.0) "Silicon" "R.Semiconductor")
+(sdegeo:create-rectangle
+  (position -0.05 -0.05   0.0) (position 0.05 (-(* -1 tox) 0.05) 0.0) "SiO2" "R.Oxide")
+(sdegeo:create-rectangle
+  (position -0.05  (-(* -1 tox) 0.05)   0.0) (position 0.05  (-(* -1 tox) 0.06)   0.0) "Tungsten" "R.Metal") 
+
+; Creating rectangular regions  
+(sdegeo:create-rectangle
+  (position -0.05 0   0.0) (position 0.05 -0.05 0.0) "Silicon" "R.Semiconductor")
+(sdegeo:create-rectangle
+  (position -0.05 -0.05   0.0) (position 0.05 (-(* -1 tox) 0.05) 0.0) "SiO2" "R.Oxide")
+(sdegeo:create-rectangle
+  (position -0.05  (-(* -1 tox) 0.05)   0.0) (position 0.05  (-(* -1 tox) 0.06)  0.0) "Tungsten" "R.Metal") 
+
+; Defining contacts 
+(sdegeo:define-contact-set "top"    4.0 (color:rgb 1.0 0.0 0.0 ) "##" )
+(sdegeo:define-contact-set "bottom"     4.0 (color:rgb 0.0 1.0 0.0 ) "##" )
+
+; Setting contacts
+(sdegeo:define-2d-contact (find-edge-id (position 0.0  (-(* -1 tox) 0.06) 0.0)) "top")
+
+(sdegeo:define-2d-contact (find-edge-id (position 0.0  0.0 0.0)) "bottom")
+
+
+; Doping
+;-Channel Doping
+; - Common dopants:
+; | "BoronActiveConcentration" | "PhosphorusActiveConcentration" | "ArsenicActiveConcentration"
+(sdedr:define-constant-profile "Const.Semiconductor" DopSub SubDop )
+(sdedr:define-constant-profile-region  "PlaceCD.Semiconductor" "Const.Semiconductor" "R.Semiconductor" )
+
+; Meshing Strategy
+(sdedr:define-refinement-window "W.Global" "Cuboid"
+ (position -1 -1 -1)
+ (position 1 1 1)
+)
+(sdedr:define-refinement-size
+ "R.Global"
+ 4e-3 2e-3 5e-3 
+ 2e-3 1e-3 2e-3)                                                                         
+(sdedr:define-refinement-function "R.Global" "MaxLenInt" "Silicon" "SiO2" 2e-4 1.2
+"DoubleSide")
+(sdedr:define-refinement-function "R.Global" "MaxLenInt" "SiO2" "Tungsten" 2e-4 1.2
+"DoubleSide")
+(sdedr:define-refinement-placement "P.Global" "R.Global" "W.Global")
+(sde:build-mesh "snmesh" "" "n@node@_msh")
+
+
+
+

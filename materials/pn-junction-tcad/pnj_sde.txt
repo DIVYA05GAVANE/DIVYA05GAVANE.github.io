@@ -1,0 +1,46 @@
+(sde:clear)
+
+; Structure
+(define L 50)
+(define Wp 50)
+(define Wn 50)
+
+(define material "Silicon") 
+
+(sdegeo:create-rectangle (position 0 0 0) (position L Wp 0) material "p-region")
+(sdegeo:create-rectangle (position 0 Wp 0) (position L (+ Wn Wp) 0) material "n-region")
+
+; Contact
+(sdegeo:define-contact-set "p_contact" 4.0 (color:rgb 1.0 0.0 0.0) "##")
+(sdegeo:set-current-contact-set "p_contact")
+(sdegeo:define-2d-contact (find-edge-id (position (* L 0.5) 0 0)) "p_contact")
+
+(sdegeo:define-contact-set "n_contact" 4.0 (color:rgb 0.0 1.0 0.0) "##")
+(sdegeo:set-current-contact-set "n_contact")
+(sdegeo:define-2d-contact (find-edge-id (position (* L 0.5) (+ Wn Wp) 0)) "n_contact")
+
+; Doping
+(sdedr:define-constant-profile "p-doping-profile" "BoronActiveConcentration" @Na@)
+(sdedr:define-constant-profile-region "p-doping-placement" "p-doping-profile" "p-region")
+(sdedr:define-constant-profile-placement "p-doping-placement" "p-doping-profile" "p-doping-window")
+
+(sdedr:define-constant-profile "n-doping-profile" "PhosphorusActiveConcentration" @Nd@)
+(sdedr:define-constant-profile-region "n-doping-placement" "n-doping-profile" "n-region")
+(sdedr:define-constant-profile-placement "n-doping-placement" "n-doping-profile" "n-doping-window")
+
+; Mesh
+(define xmax 10)
+(define xmin 0.1)
+(define ymax 1)
+(define ymin 0.1)
+
+(sdedr:define-refeval-window "domain-ref" "Rectangle" (position 0 0 0) 
+(position L (+ Wn Wp) 0))
+(sdedr:define-refinement-size "domain-ref-size" xmax ymax xmin ymin)
+(sdedr:define-refinement-placement "domain-ref-pl" "domain-ref-size" "domain-ref")
+
+(sdedr:define-refeval-window "junction-ref" "Rectangle" (position 0 (- Wp 0.050) 0) (position L (+ Wp 0.050) 0))
+(sdedr:define-refinement-size "junction-ref-size" (/ xmax 10) (/ ymax 10) (/ xmin 10) (/ ymin 10))
+(sdedr:define-refinement-placement "junction-ref-pl" "junction-ref-size" "junction-ref")
+
+(sde:build-mesh "snmesh" "-a -c boxmethod" "n@node@_msh")
