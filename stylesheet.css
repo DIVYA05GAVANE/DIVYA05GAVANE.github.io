@@ -26,3 +26,12 @@ body{background:radial-gradient(circle at 90% 0%,rgba(8,120,209,.07),transparent
 @media(max-width:640px){.intro{padding:22px 20px}}
 .project-link{display:inline-block;margin-top:12px;font-weight:700}.project-page h1{max-width:24ch}.project-page section{max-width:70ch}.artifact-box{margin-top:24px;padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
 .additional-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.additional-card{padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--panel);transition:transform .22s ease,box-shadow .22s ease}.additional-card:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(27,66,102,.08)}.additional-card h3{font-size:1rem;line-height:1.35}.additional-card p{margin-top:8px}.additional-card .meta{color:var(--muted);font-size:.88rem}@media(max-width:640px){.additional-grid{grid-template-columns:1fr}}
+
+/* Interactive enhancements */
+.section-nav{position:sticky;top:10px;z-index:3;padding:9px 14px;border:1px solid color-mix(in srgb,var(--line) 84%,transparent);border-radius:12px;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(12px);box-shadow:0 8px 22px rgba(27,66,102,.05)}
+.section-nav a{position:relative;transition:color .18s ease}.section-nav a::after{content:'';position:absolute;right:0;bottom:0;left:0;height:2px;border-radius:999px;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform .18s ease}.section-nav a:hover::after,.section-nav a.is-active::after{transform:scaleX(1)}
+.highlights>div{position:relative;transition:transform .2s ease}.highlights>div:hover{transform:translateY(-3px)}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1)}.reveal.is-visible{opacity:1;transform:none}
+.project-link{position:relative}.project-link::after{content:'↗';display:inline-block;margin-left:.35em;transition:transform .18s ease}.project-link:hover::after{transform:translate(2px,-2px)}
+.tile{transition:transform .22s ease,box-shadow .22s ease}.project:hover .tile{transform:scale(1.025);box-shadow:0 8px 20px rgba(27,66,102,.1)}
+@media(prefers-reduced-motion:reduce){.section-nav a,.section-nav a::after,.highlights>div,.reveal,.project-link::after,.tile{transition:none}.highlights>div:hover,.project:hover .tile{transform:none}}

@@ -40,4 +40,60 @@
     filters.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
     document.querySelectorAll('.project').forEach(p=>{p.hidden = !(button.dataset.filter==='all'||p.dataset.track===button.dataset.filter);});
   }));
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealTargets = document.querySelectorAll('main > .highlights, main > .section-nav, main > section');
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    revealTargets.forEach(target => target.classList.add('is-visible'));
+  } else {
+    revealTargets.forEach(target => target.classList.add('reveal'));
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealTargets.forEach(target => revealObserver.observe(target));
+  }
+
+  const navLinks = [...document.querySelectorAll('.section-nav a[href^="#"]')];
+  if ('IntersectionObserver' in window && navLinks.length) {
+    const navObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach(link => {
+          const active = link.getAttribute('href') === '#' + entry.target.id;
+          link.classList.toggle('is-active', active);
+          if (active) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+      });
+    }, { rootMargin: '-18% 0px -72% 0px', threshold: 0 });
+    navLinks.forEach(link => {
+      const section = document.querySelector(link.getAttribute('href'));
+      if (section) navObserver.observe(section);
+    });
+  }
+
+  const metrics = [...document.querySelectorAll('.highlights strong')];
+  if (!reduceMotion) {
+    metrics.forEach(metric => {
+      const original = metric.textContent.trim();
+      const match = original.match(/^(.*?)(\d+)(.*)$/);
+      if (!match) return;
+      const [, prefix, targetText, suffix] = match;
+      const target = Number(targetText);
+      metric.textContent = prefix + '0' + suffix;
+      const start = performance.now();
+      const duration = 650;
+      const tick = now => {
+        const progress = Math.min((now - start) / duration, 1);
+        metric.textContent = prefix + Math.round(target * (1 - Math.pow(1 - progress, 3))) + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }
 })();
