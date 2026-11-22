@@ -43,23 +43,23 @@
 
   const projectIcon = title => {
     const text = title.toLowerCase();
-    if (text.includes('ferroelectric')) return 'ϟ';
-    if (text.includes('random laser')) return '✦';
-    if (text.includes('energy bands')) return '∑';
-    if (text.includes('mos capacitor')) return '◉';
-    if (text.includes('malaria')) return '⌁';
-    if (text.includes('playstore')) return '▦';
-    if (text.includes('echo')) return '〰';
-    if (text.includes('becton') || text.includes('urine')) return '⚕';
-    if (text.includes('morphological')) return '◌';
-    if (text.includes('obstacle') || text.includes('bot')) return '◈';
-    if (text.includes('pn-junction')) return '⇄';
-    if (text.includes('rtl') || text.includes('fp8')) return '⌘';
-    if (text.includes('sram') || text.includes('sequential')) return '▣';
-    if (text.includes('standard cells')) return '▤';
-    if (text.includes('mosfet')) return 'ϟ';
-    if (text.includes('package')) return '◫';
-    return '◇';
+    if (text.includes('ferroelectric')) return '+↕−';
+    if (text.includes('random laser')) return '✦≈';
+    if (text.includes('energy bands')) return 'E(k)';
+    if (text.includes('mos capacitor')) return 'C-V';
+    if (text.includes('malaria')) return 'AI';
+    if (text.includes('playstore')) return '▁▃▆';
+    if (text.includes('echo')) return '∿';
+    if (text.includes('becton') || text.includes('urine')) return 'SEN';
+    if (text.includes('morphological')) return '▦';
+    if (text.includes('obstacle') || text.includes('bot')) return 'BLE';
+    if (text.includes('pn-junction')) return 'P│N';
+    if (text.includes('rtl') || text.includes('fp8')) return 'RTL';
+    if (text.includes('sram') || text.includes('sequential')) return '6T';
+    if (text.includes('standard cells')) return 'IC';
+    if (text.includes('mosfet')) return 'FET';
+    if (text.includes('package')) return 'BGA';
+    return 'ENG';
   };
   document.querySelectorAll('.project h3, .additional-card h3').forEach((heading, index) => {
     if (heading.querySelector('.project-icon')) return;
@@ -67,6 +67,7 @@
     icon.className = 'project-icon';
     icon.setAttribute('aria-hidden', 'true');
     icon.textContent = projectIcon(heading.textContent);
+    if (icon.textContent.length > 2) icon.classList.add('project-icon-label');
     heading.prepend(icon);
     heading.closest('article')?.style.setProperty('--project-index', index);
   });
