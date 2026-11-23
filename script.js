@@ -159,8 +159,8 @@
   const availability = document.querySelector('.availability');
   if (availability) availability.lastChild.textContent = ' Available worldwide for full-time semiconductor engineering roles';
   const bios = document.querySelectorAll('.bio');
-  if (bios[0]) bios[0].innerHTML = `I work across memory technology from transistor to system. As a Nanoelectronics master's candidate at the <a href="https://www.nus.edu.sg/">National University of Singapore</a>, I develop circuits and custom layouts for a ferroelectric thin-film-transistor (FeTFT) memory macro, now fabricated and electrically measured.`;
-  if (bios[1]) bios[1].innerHTML = `Previously, I spent nearly three years at <a href="https://www.micron.com/">Micron</a> translating memory-package requirements into production-ready schematics and layouts. I’m open worldwide to opportunities in Custom IC Design, Memory Devices, TCAD, Process Integration, Advanced Packaging and heterogeneous integration.`;
+  if (bios[0]) bios[0].innerHTML = `From transistor physics to fabricated hardware, I turn memory concepts into working hardware. As a Nanoelectronics master's candidate at the <a href="https://www.nus.edu.sg/">National University of Singapore</a>, I designed the peripheral circuits and custom layout for a <strong>monolithic 3D FeTFT BCAM memory IC</strong>: a 32-bit × 8-vector macro with vertically integrated devices, memory array and on-chip peripherals—now fabricated and electrically characterised.`;
+  if (bios[1]) bios[1].innerHTML = `Before research, I spent nearly three years at <a href="https://www.micron.com/">Micron</a> translating memory-package requirements into production-ready schematics and layouts. I combine device-aware design with manufacturing discipline, and am open worldwide to roles in Custom IC Design, Memory Devices, TCAD, Process Integration, Advanced Packaging and heterogeneous integration.`;
   const demoTitle = document.querySelector('.demo-head h3');
   if (demoTitle) demoTitle.textContent = 'Try a Hamming-distance search';
   const demoLead = document.querySelector('.demo .lede');
