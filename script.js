@@ -140,6 +140,10 @@
         <h3 id="journey-title">Building a 3D memory macro</h3>
         <p>From device behaviour to a fabricated system, this is how the work comes together.</p>
       </div>
+      <div class="journey-figures">
+        <figure><img src="images/fabricated-fetft-memory-cell.png" alt="Fabricated 2T-2FeTFT memory cell showing labelled word, bit, source and storage lines"><figcaption><strong>Fabricated memory cell</strong><span>2T-2FeTFT cell: concept and fabricated device</span></figcaption></figure>
+        <figure><img src="images/fabricated-bcam-macro.png" alt="Fabricated BCAM macro showing integrated word-line decoder, bit-line decoder, drivers, multiplexer, array, precharge and sense amplifier"><figcaption><strong>Fabricated BCAM macro</strong><span>Peripherals integrated with the memory array</span></figcaption></figure>
+      </div>
       <ol class="journey-track">
         <li><span>01</span><strong>Model the cell</strong><small>Research team maps device behaviour</small></li>
         <li><span>02</span><strong>Fabricate the cell</strong><small>Research team builds the stacked device</small></li>
