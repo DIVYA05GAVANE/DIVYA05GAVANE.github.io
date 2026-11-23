@@ -156,7 +156,7 @@
     researchDemo.before(journey);
   }
 
-  document.querySelector('.role')?.replaceChildren('Semiconductor Engineer · Custom IC, Memory Devices, TCAD & Advanced Packaging');
+  document.querySelector('.role')?.replaceChildren('Semiconductor Engineer · 3D IC, Memory Devices, Process Integration, TCAD & Advanced Packaging');
   const availability = document.querySelector('.availability');
   if (availability) availability.lastChild.textContent = ' Open to semiconductor engineering opportunities';
   const bios = document.querySelectorAll('.bio');
