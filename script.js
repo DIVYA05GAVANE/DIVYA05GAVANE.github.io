@@ -56,6 +56,7 @@
     if (text.includes('becton') || text.includes('urine')) return svg('Sensor and pump system', '<path d="M14 10h28v28H14zM21 17h14m-7-7v14m21 4c0 6-5 10-5 10s-5-4-5-10a5 5 0 0 1 10 0Z"/><path d="M49 19c5 3 8 7 8 12"/>');
     if (text.includes('morphological')) return svg('Image morphology pixels', '<path d="M12 12h12v12H12zm18 0h12v12H30zm18 0h12v12H48zM12 30h12v12H12zm18 0h12v12H30zm18 0h12v12H48z"/><path d="M16 8v4m-4 4h4m28-4h4m4 4h4"/>');
     if (text.includes('obstacle') || text.includes('bot')) return svg('BLE obstacle robot', '<rect x="16" y="15" width="30" height="20" rx="5"/><circle cx="25" cy="25" r="3"/><circle cx="37" cy="25" r="3"/><path d="M26 31h10M22 35v6m18-6v6M13 41h10m10 0h10M31 15V8m0 0-3 3m3-3 3 3M48 15c6 2 10 7 10 13m-5-16c8 3 13 10 13 18"/>');
+    if (text.includes('piano') || text.includes('555 timer')) return svg('555 timer audio oscillator', '<rect x="18" y="10" width="36" height="28" rx="3"/><path d="M25 16h22M25 22h22M25 28h22M25 34h22"/><path d="M8 17h10m36 0h10M8 31h10m36 0h10"/><text x="36" y="26">555</text>');
     if (text.includes('rtl') || text.includes('fp8')) return svg('RTL datapath', '<rect x="7" y="15" width="18" height="18" rx="2"/><rect x="47" y="15" width="18" height="18" rx="2"/><path d="M25 24h22m-6-6 6 6-6 6"/><text x="16" y="24">01</text><text x="56" y="24">Σ</text>');
     if (text.includes('sram') || text.includes('sequential')) return svg('SRAM cell', '<rect x="13" y="10" width="18" height="12" rx="1"/><rect x="41" y="10" width="18" height="12" rx="1"/><rect x="13" y="28" width="18" height="12" rx="1"/><rect x="41" y="28" width="18" height="12" rx="1"/><path d="M31 16h10m-10 18h10"/><text x="36" y="45">6T</text>');
     if (text.includes('standard cells')) return svg('Logic gate', '<path d="M12 12h20c12 0 18 7 18 12s-6 12-18 12H12zM12 12v24m38-12h13"/><circle cx="63" cy="24" r="2"/><text x="31" y="24">NAND</text>');
@@ -157,10 +158,10 @@
 
   document.querySelector('.role')?.replaceChildren('Semiconductor Engineer · Custom IC, Memory Devices, TCAD & Advanced Packaging');
   const availability = document.querySelector('.availability');
-  if (availability) availability.lastChild.textContent = ' Available worldwide for full-time semiconductor engineering roles';
+  if (availability) availability.lastChild.textContent = ' Open to semiconductor engineering opportunities';
   const bios = document.querySelectorAll('.bio');
   if (bios[0]) bios[0].innerHTML = `From transistor physics to fabricated hardware, I turn memory concepts into working hardware. As a Nanoelectronics master's candidate at the <a href="https://www.nus.edu.sg/">National University of Singapore</a>, I designed the peripheral circuits and custom layout for a <strong>monolithic 3D FeTFT BCAM memory IC</strong>: a 32-bit × 8-vector macro with vertically integrated devices, memory array and on-chip peripherals—now fabricated and electrically characterised.`;
-  if (bios[1]) bios[1].innerHTML = `Before research, I spent nearly three years at <a href="https://www.micron.com/">Micron</a> translating memory-package requirements into production-ready schematics and layouts. I combine device-aware design with manufacturing discipline, and am open worldwide to roles in Custom IC Design, Memory Devices, TCAD, Process Integration, Advanced Packaging and heterogeneous integration.`;
+  if (bios[1]) bios[1].innerHTML = `Before research, I spent nearly three years at <a href="https://www.micron.com/">Micron</a> translating memory-package requirements into production-ready schematics and layouts. I bring device-aware design and manufacturing discipline to Custom IC Design, Memory Devices, TCAD, Process Integration, Advanced Packaging and heterogeneous integration.`;
   const demoTitle = document.querySelector('.demo-head h3');
   if (demoTitle) demoTitle.textContent = 'Try a Hamming-distance search';
   const demoLead = document.querySelector('.demo .lede');
