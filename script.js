@@ -127,4 +127,40 @@
       requestAnimationFrame(tick);
     });
   }
+
+  const researchSection = document.getElementById('research');
+  const researchDemo = researchSection?.querySelector('.demo');
+  if (researchSection && researchDemo && !document.querySelector('.journey')) {
+    const journey = document.createElement('section');
+    journey.className = 'journey';
+    journey.setAttribute('aria-labelledby', 'journey-title');
+    journey.innerHTML = `
+      <div class="journey-heading">
+        <p class="eyebrow">Research journey</p>
+        <h3 id="journey-title">Building a 3D memory macro</h3>
+        <p>From device behaviour to a fabricated system, this is how the work comes together.</p>
+      </div>
+      <ol class="journey-track">
+        <li><span>01</span><strong>Model the cell</strong><small>Research team maps device behaviour</small></li>
+        <li><span>02</span><strong>Fabricate the cell</strong><small>Research team builds the stacked device</small></li>
+        <li class="journey-mine"><span>03</span><strong>Design the periphery</strong><small>My work: circuits, GDS and array interface</small></li>
+        <li><span>04</span><strong>Fabricate the macro</strong><small>Array and peripheral integration</small></li>
+        <li class="journey-mine"><span>05</span><strong>Characterise the hardware</strong><small>My work: electrical measurements and analysis</small></li>
+      </ol>
+      <p class="journey-note"><strong>My contribution:</strong> peripheral circuit design, custom GDS layouts, array-interface integration and electrical characterisation.</p>`;
+    researchDemo.before(journey);
+  }
+
+  document.querySelector('.role')?.replaceChildren('Semiconductor Engineer · Custom IC, Memory Devices, TCAD & Advanced Packaging');
+  const availability = document.querySelector('.availability');
+  if (availability) availability.lastChild.textContent = ' Available worldwide for full-time semiconductor engineering roles';
+  const bios = document.querySelectorAll('.bio');
+  if (bios[0]) bios[0].innerHTML = `I work across memory technology from transistor to system. As a Nanoelectronics master's candidate at the <a href="https://www.nus.edu.sg/">National University of Singapore</a>, I develop circuits and custom layouts for a ferroelectric thin-film-transistor (FeTFT) memory macro, now fabricated and electrically measured.`;
+  if (bios[1]) bios[1].innerHTML = `Previously, I spent nearly three years at <a href="https://www.micron.com/">Micron</a> translating memory-package requirements into production-ready schematics and layouts. I’m open worldwide to opportunities in Custom IC Design, Memory Devices, TCAD, Process Integration, Advanced Packaging and heterogeneous integration.`;
+  const demoTitle = document.querySelector('.demo-head h3');
+  if (demoTitle) demoTitle.textContent = 'Try a Hamming-distance search';
+  const demoLead = document.querySelector('.demo .lede');
+  if (demoLead) demoLead.textContent = 'See the search principle in action: a BCAM compares one 32-bit query with every stored vector in parallel. The smallest mismatch count wins—toggle any query bit to explore how the closest match changes.';
+  const contactHeading = document.querySelector('#contact h2');
+  if (contactHeading) contactHeading.textContent = 'Let’s connect';
 })();
