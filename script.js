@@ -151,7 +151,7 @@
         <li><span>04</span><strong>Fabricate the macro</strong><small>Array and peripheral integration</small></li>
         <li class="journey-mine"><span>05</span><strong>Characterise the hardware</strong><small>My work: electrical measurements and analysis</small></li>
       </ol>
-      <p class="journey-note"><strong>My contribution:</strong> peripheral circuit design, custom GDS layouts, array-interface integration and electrical characterisation.</p>`;
+      <p class="journey-note"><strong>My contribution:</strong> Peripheral circuit design, custom GDS layouts, array-interface integration and electrical characterisation.</p>`;
     researchDemo.before(journey);
   }
 
